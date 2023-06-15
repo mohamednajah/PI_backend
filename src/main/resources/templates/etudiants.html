@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Patients</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+</head>
+<body>
+<div  layout:fragment="content1" >
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Liste des étudiants</div>
+            <div class="card-body">
+
+
+                <!--RECHERCHE-->
+                <form method="get" th:action="@{/index}">
+                    <label>Rechercher...</label>
+                    <input type="text" name="keyword" th:value="${keyword}">
+                    <button type="submit" class="btn btn-primary">Trouver</button>
+                </form>
+
+
+                <table class="table m-lg-0">
+                    <thead>
+                    <tr>
+                        <th>N° apogé</th>
+                        <th>CNE</th>
+                        <th>CIN</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Date De Naissance</th>
+                        <th>Téléphone</th>
+                        <th>Email</th>
+                        <th>Adresse</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="e:${listeEtudiants}">
+                        <td th:text="${e.getCodeApogee()}"></td>
+                        <td th:text="${e.getCne()}"></td>
+                        <td th:text="${e.getCni()}"></td>
+                        <td th:text="${e.getNom()}"></td>
+                        <td th:text="${e.getPrenom()}"></td>
+                        <td th:text="${e.getDateNaissance()}"></td>
+                        <td th:text="${e.getTelephone()}"></td>
+                        <td th:text="${e.getEmail()}"></td>
+                        <td th:text="${e.getAdresse()}"></td>
+                        <td>
+                            <a onclick="return confirm('Etes-vous sur?')" class="btn btn-danger" >Supprimer</a>
+                            <a class="btn btn-warning" >Modifier</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <ul class="nav nav-pills my-lg-5">
+                    <li th:each="page, status:${pages}">
+                        <a th:class="${status.index==currentPage?'btn btn-info m-lg-1': 'btn btn-outline-info m-lg-1'}" th:text="${status.index}"
+                           th:href="@{/user/index(page=${status.index}, keyword=${keyword})}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
